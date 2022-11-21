@@ -12,7 +12,7 @@ public class InputMemberMapper {
 
     public MemberResponseDto toDto(Member domain) {
         return MemberResponseDto.builder()
-            .memberId(domain.getId())
+            .memberId(domain.getId().isEmpty() ? null : domain.getId().get())
             .name(domain.getName())
             .address(domain.getAddress())
             .build();

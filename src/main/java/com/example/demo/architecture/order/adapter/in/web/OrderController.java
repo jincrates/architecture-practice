@@ -3,11 +3,13 @@ package com.example.demo.architecture.order.adapter.in.web;
 import com.example.demo.architecture.global.common.WebAdapter;
 import com.example.demo.architecture.order.adapter.in.web.dto.CancelOrderCommand;
 import com.example.demo.architecture.order.adapter.in.web.dto.OrderResponseDto;
+import com.example.demo.architecture.order.adapter.in.web.mapper.InputOrderMapper;
 import com.example.demo.architecture.order.application.port.in.CreateOrderUseCase;
 import com.example.demo.architecture.order.application.port.in.CancelOrderUseCase;
 import com.example.demo.architecture.order.application.port.in.LoadOrderUseCase;
 import com.example.demo.architecture.order.domain.item.Item.ItemId;
 import com.example.demo.architecture.order.domain.member.Member.MemberId;
+import com.example.demo.architecture.order.domain.order.Order;
 import com.example.demo.architecture.order.domain.order.Order.OrderId;
 import com.example.demo.architecture.order.domain.order.OrderStatus;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/orders")
 public class OrderController {
 
+    private final InputOrderMapper inputOrderMapper;
     private final CreateOrderUseCase createOrderUseCase;
     private final LoadOrderUseCase loadOrderUseCase;
     private final CancelOrderUseCase cancelOrderUseCase;
@@ -46,7 +49,7 @@ public class OrderController {
         @RequestParam("itemId") ItemId itemId,
         @RequestParam("count") int count) {
 
-        createOrderUseCase.createOrder(memberId, itemId, count);
-        return null;
+        Order savedOrder = createOrderUseCase.createOrder(memberId, itemId, count);
+        return new OrderResponseDto(savedOrder);
     }
 }

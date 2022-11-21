@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-@Builder(toBuilder = true)
+@Builder
 public class Item {
 
     private final ItemId id;

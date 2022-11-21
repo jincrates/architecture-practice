@@ -23,7 +23,7 @@ public class OrderResponseDto {
 
     public OrderResponseDto(Order domain) {
         this.orderId = domain.getId().isEmpty() ? null : domain.getId().get();
-        this.memberId = domain.getMember().getId();
+        this.memberId = domain.getMember().getId().isEmpty() ? null : domain.getMember().getId().get();
         this.orderDate = domain.getOrderDate();
         this.orderStatus = domain.getStatus();
         this.orderItems = domain.getOrderItems().stream()

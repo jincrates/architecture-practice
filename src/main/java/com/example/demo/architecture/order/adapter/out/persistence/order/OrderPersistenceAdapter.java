@@ -1,7 +1,6 @@
 package com.example.demo.architecture.order.adapter.out.persistence.order;
 
 import com.example.demo.architecture.global.common.PersistenceAdapter;
-import com.example.demo.architecture.order.adapter.out.persistence.mapper.OutputOrderMapper;
 import com.example.demo.architecture.order.application.port.out.CreateOrderPort;
 import com.example.demo.architecture.order.application.port.out.LoadOrderPort;
 import com.example.demo.architecture.order.application.port.out.UpdateOrderStatusPort;
@@ -20,26 +19,23 @@ class OrderPersistenceAdapter implements
         UpdateOrderStatusPort {
 
     private final OrderJpaRepository orderRepository;
-    private final OutputOrderMapper outputOrderMapper;
 
     @Override
     public Order loadOrder(OrderId orderId, LocalDateTime baselineDate) {
-
-        OrderJpaEntity order =
-                orderRepository.findById(orderId.getValue())
+        OrderJpaEntity order = orderRepository.findById(orderId.getValue())
                         .orElseThrow(EntityNotFoundException::new);
 
-        return outputOrderMapper.toDomain(order);
+        return new Order(order);
     }
 
     @Override
     public void updateStatus(Order order) {
-        orderRepository.save(outputOrderMapper.toEntity(order));
+        orderRepository.save(new OrderJpaEntity(order));
     }
 
     @Override
     public Order save(Order order) {
-        OrderJpaEntity savedOrder = orderRepository.save(outputOrderMapper.toEntity(order));
-        return outputOrderMapper.toDomain(savedOrder);
+        OrderJpaEntity savedOrder = orderRepository.save(new OrderJpaEntity(order));
+        return new Order(savedOrder);
     }
 }

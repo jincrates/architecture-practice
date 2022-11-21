@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Slf4j
 @Getter
-@Builder(toBuilder = true)
+@Builder
 public class Order {
 
     private OrderId id;

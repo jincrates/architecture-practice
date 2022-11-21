@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Builder(toBuilder = true)
+@Builder
 public class Member {
 
     private MemberId id;
