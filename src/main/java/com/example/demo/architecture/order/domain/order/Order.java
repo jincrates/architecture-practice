@@ -1,6 +1,9 @@
 package com.example.demo.architecture.order.domain.order;
 
+import com.example.demo.architecture.order.adapter.out.persistence.order.OrderJpaEntity;
 import com.example.demo.architecture.order.domain.member.Member;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,21 +21,34 @@ public class Order {
 
     private Member member;
 
+    private List<OrderItem> orderItems = new ArrayList<>();
+
     LocalDateTime orderDate;
 
     private OrderStatus status;
 
-    @Builder
-    public Order(OrderId id, Member member, LocalDateTime orderDate, OrderStatus status) {
-        this.id = id;
-        this.member = member;
-        this.orderDate = orderDate;
-        this.status = status;
+    public Order(OrderJpaEntity entity) {
+        this.id = new OrderId(entity.getId());
+        this.member = new Member(entity.getMember());
+        this.orderItems = entity.getOrderItems().stream()
+            .map(orderItem -> new OrderItem(orderItem))
+            .collect(Collectors.toList());
+        this.orderDate = entity.getOrderDate();
+        this.status = entity.getStatus();
     }
 
-    public Order(OrderId orderId, OrderStatus status) {
-        this.id = orderId;
-        this.status = status;
+    public static Order createOrder(Member member, OrderItem... orderItems) {
+        Order order = Order.builder()
+            .member(member)
+            .status(OrderStatus.ORDER)
+            .orderDate(LocalDateTime.now())
+            .build();
+
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+
+        return order;
     }
 
     public void setMember(Member member) {
@@ -40,12 +56,9 @@ public class Order {
         member.getOrders().add(this);
     }
 
-    public static Order withId(OrderId orderId, OrderStatus status) {
-        return new Order(orderId, status);
-    }
-
-    public Optional<OrderId> getId() {
-        return Optional.ofNullable(this.id);
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
     }
 
     /**
@@ -66,4 +79,9 @@ public class Order {
     public static class OrderId {
         private Long value;
     }
+
+    public Optional<OrderId> getId() {
+        return Optional.ofNullable(this.id);
+    }
+
 }

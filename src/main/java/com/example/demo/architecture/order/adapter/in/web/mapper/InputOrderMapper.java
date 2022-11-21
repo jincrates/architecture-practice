@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper
-public class InputMemberMapper {
+public class InputOrderMapper {
 
     public MemberResponseDto toDto(Member domain) {
         return MemberResponseDto.builder()

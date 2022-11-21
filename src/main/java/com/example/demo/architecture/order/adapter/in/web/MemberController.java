@@ -2,13 +2,13 @@ package com.example.demo.architecture.order.adapter.in.web;
 
 import com.example.demo.architecture.global.common.WebAdapter;
 import com.example.demo.architecture.order.adapter.in.web.mapper.InputMemberMapper;
-import com.example.demo.architecture.order.application.port.in.AddMemberRequest;
-import com.example.demo.architecture.order.application.port.in.AddMemberUseCase;
-import com.example.demo.architecture.order.application.port.in.LoadMemberResponse;
+import com.example.demo.architecture.order.adapter.in.web.dto.MemberCreateRequestDto;
+import com.example.demo.architecture.order.application.port.in.CreateMemberUseCase;
+import com.example.demo.architecture.order.adapter.in.web.dto.MemberResponseDto;
 import com.example.demo.architecture.order.application.port.in.LoadMemberUseCase;
 import com.example.demo.architecture.order.domain.member.Member;
 import com.example.demo.architecture.order.domain.member.Member.MemberId;
-import java.util.Collection;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,23 +25,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/members")
 public class MemberController {
 
-    private final AddMemberUseCase addMemberUseCase;
+    private final CreateMemberUseCase createMemberUseCase;
     private final LoadMemberUseCase loadMemberUseCase;
 
     private final InputMemberMapper inputMemberMapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    LoadMemberResponse addMember(@RequestBody AddMemberRequest request) {
-        Member savedMember = addMemberUseCase.addMember(inputMemberMapper.toDomain(request));
+    MemberResponseDto createMember(@RequestBody MemberCreateRequestDto request) {
+        Member savedMember = createMemberUseCase.createMember(inputMemberMapper.toDomain(request));
         return inputMemberMapper.toDto(savedMember);
     }
 
     @GetMapping("/{memberId}")
     @ResponseStatus(HttpStatus.OK)
-    LoadMemberResponse loadMember(@PathVariable("memberId") MemberId memberId) {
+    MemberResponseDto loadMember(@PathVariable("memberId") MemberId memberId) {
         Member member = loadMemberUseCase.findById(memberId);
         return inputMemberMapper.toDto(member);
     }
 
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    List<MemberResponseDto> loadAllMembers() {
+        List<Member> members = loadMemberUseCase.findAllMembers();
+        return inputMemberMapper.toDto(members);
+    }
 }

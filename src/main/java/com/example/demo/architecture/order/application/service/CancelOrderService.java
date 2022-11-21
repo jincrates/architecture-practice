@@ -1,7 +1,7 @@
 package com.example.demo.architecture.order.application.service;
 
 import com.example.demo.architecture.global.common.UseCase;
-import com.example.demo.architecture.order.application.port.in.CancelOrderCommand;
+import com.example.demo.architecture.order.adapter.in.web.dto.CancelOrderCommand;
 import com.example.demo.architecture.order.application.port.in.CancelOrderUseCase;
 import com.example.demo.architecture.order.application.port.out.LoadOrderPort;
 import com.example.demo.architecture.order.application.port.out.OrderLock;

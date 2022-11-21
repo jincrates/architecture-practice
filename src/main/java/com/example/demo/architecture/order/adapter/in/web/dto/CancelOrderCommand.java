@@ -1,4 +1,4 @@
-package com.example.demo.architecture.order.application.port.in;
+package com.example.demo.architecture.order.adapter.in.web.dto;
 
 import com.example.demo.architecture.global.common.SelfValidating;
 import com.example.demo.architecture.order.domain.order.OrderStatus;

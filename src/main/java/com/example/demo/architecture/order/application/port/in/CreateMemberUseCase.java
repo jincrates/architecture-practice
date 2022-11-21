@@ -3,9 +3,9 @@ package com.example.demo.architecture.order.application.port.in;
 import com.example.demo.architecture.order.domain.member.Member;
 import java.util.List;
 
-public interface AddMemberUseCase {
+public interface CreateMemberUseCase {
 
-    Member addMember(Member domain);
+    Member createMember(Member domain);
 
-    List<Member> addAllMembers(List<Member> domains);
+    List<Member> createAllMembers(List<Member> domains);
 }

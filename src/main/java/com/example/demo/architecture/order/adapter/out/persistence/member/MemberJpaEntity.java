@@ -35,14 +35,8 @@ public class MemberJpaEntity {
     private List<OrderJpaEntity> orders = new ArrayList<>();
 
     public MemberJpaEntity(Member domain) {
-        this.id = domain.getId().getValue();
+        this.id = domain.getId().isEmpty() ? null : domain.getId().get().getValue();
         this.name = domain.getName();
         this.address = domain.getAddress();
-    }
-
-    public MemberJpaEntity(MemberJpaEntity member) {
-        this.id = member.getId();
-        this.name = member.getName();
-        this.address = member.getAddress();
     }
 }

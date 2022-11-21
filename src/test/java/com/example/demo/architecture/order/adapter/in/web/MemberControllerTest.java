@@ -2,10 +2,9 @@ package com.example.demo.architecture.order.adapter.in.web;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import antlr.collections.impl.IntRange;
 import com.example.demo.architecture.infra.MockMvcTest;
-import com.example.demo.architecture.order.application.port.in.AddMemberRequest;
-import com.example.demo.architecture.order.application.port.in.AddMemberUseCase;
+import com.example.demo.architecture.order.adapter.in.web.dto.MemberCreateRequestDto;
+import com.example.demo.architecture.order.application.port.in.CreateMemberUseCase;
 import com.example.demo.architecture.order.application.port.in.LoadMemberUseCase;
 import com.example.demo.architecture.order.domain.member.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +25,8 @@ class MemberControllerTest {
 
     @Autowired MockMvc mockmvc;
     @Autowired ObjectMapper objectMapper;
-    @Autowired AddMemberUseCase addMemberUseCase;
+    @Autowired
+    CreateMemberUseCase createMemberUseCase;
     @Autowired LoadMemberUseCase loadMemberUseCase;
 
 
@@ -34,7 +34,7 @@ class MemberControllerTest {
     @DisplayName("사용자 등록 테스트")
     void saveMemberTest() throws Exception {
         //given
-        var givenRequest = AddMemberRequest.builder()
+        var givenRequest = MemberCreateRequestDto.builder()
             .name("user01")
             .address("서울시 강남구")
             .build();
@@ -60,7 +60,7 @@ class MemberControllerTest {
             .build();
 
         //when
-        Member savedMember = addMemberUseCase.addMember(givenMember);
+        Member savedMember = createMemberUseCase.createMember(givenMember);
         Member findMember = loadMemberUseCase.findById(savedMember.getId());
 
         // then
@@ -86,7 +86,7 @@ class MemberControllerTest {
         });
 
         //when
-        List<Member> savedMembers = addMemberUseCase.addAllMembers(members);
+        List<Member> savedMembers = createMemberUseCase.createAllMembers(members);
         List<Member> findAllMembers = loadMemberUseCase.findAllMembers();
 
         // then
