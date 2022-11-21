@@ -1,18 +1,26 @@
 package com.example.demo.architecture.order.adapter.out.persistence.member;
 
 import com.example.demo.architecture.order.adapter.out.persistence.order.OrderJpaEntity;
-import com.example.demo.architecture.order.domain.member.Address;
+import com.example.demo.architecture.order.domain.member.Member;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Table(name = "member")
-@Data
+@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder(toBuilder = true)
 public class MemberJpaEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +29,20 @@ public class MemberJpaEntity {
 
     private String name;
 
-    @Embedded
-    private Address address;
+    private String address;
 
     @OneToMany(mappedBy = "member")
     private List<OrderJpaEntity> orders = new ArrayList<>();
+
+    public MemberJpaEntity(Member domain) {
+        this.id = domain.getId().getValue();
+        this.name = domain.getName();
+        this.address = domain.getAddress();
+    }
+
+    public MemberJpaEntity(MemberJpaEntity member) {
+        this.id = member.getId();
+        this.name = member.getName();
+        this.address = member.getAddress();
+    }
 }

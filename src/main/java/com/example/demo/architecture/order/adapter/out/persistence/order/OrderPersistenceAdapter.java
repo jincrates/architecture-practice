@@ -26,11 +26,11 @@ class OrderPersistenceAdapter implements
                 orderRepository.findById(orderId.getValue())
                         .orElseThrow(EntityNotFoundException::new);
 
-        return orderMapper.mapToDomainEntity(order);
+        return orderMapper.toDomain(order);
     }
 
     @Override
     public void updateStatus(Order order) {
-        orderRepository.save(orderMapper.mapToJpaEntity(order));
+        orderRepository.save(orderMapper.toEntity(order));
     }
 }

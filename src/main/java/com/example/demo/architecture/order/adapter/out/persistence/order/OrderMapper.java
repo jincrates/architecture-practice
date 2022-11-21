@@ -1,25 +1,37 @@
 package com.example.demo.architecture.order.adapter.out.persistence.order;
 
+import com.example.demo.architecture.global.common.Mapper;
+import com.example.demo.architecture.order.adapter.out.persistence.member.MemberJpaEntity;
+import com.example.demo.architecture.order.adapter.out.persistence.member.MemberMapper;
+import com.example.demo.architecture.order.domain.member.Member;
 import com.example.demo.architecture.order.domain.order.Order;
 import com.example.demo.architecture.order.domain.order.Order.OrderId;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component
+@Mapper
 class OrderMapper {
-    Order mapToDomainEntity(OrderJpaEntity order) {
-        return Order.withId(
-                new OrderId(order.getId()),
-                order.getStatus()
-        );
+
+    OrderMapper() {
+        super();
     }
 
-    OrderJpaEntity mapToJpaEntity(Order order) {
+    public static OrderJpaEntity toEntity(Order domain) {
         return OrderJpaEntity.builder()
-                .id(order.getId().isEmpty() ? null : order.getId().get().getValue())
-                //.deliveryJpaEntity(order.getDelivery())
-                //.orderItems(order.getOrderItems())
-                .orderDate(order.getOrderDate())
-                .status(order.getStatus())
-                .build();
+            .id(domain.getId().isEmpty() ? null : domain.getId().get().getValue())
+            .orderDate(domain.getOrderDate())
+            .status(domain.getStatus())
+            .build();
+    }
+
+    public static Order toDomain(OrderJpaEntity entity) {
+//        Member member = MemberMapper.toDomain(entity.getMember());
+
+        return Order.builder()
+            .id(new OrderId(entity.getId()))
+            .orderDate(entity.getOrderDate())
+            .member(null)
+            .status(entity.getStatus())
+            .build();
     }
 }

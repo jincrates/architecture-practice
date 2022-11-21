@@ -9,10 +9,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "orders")
-@Data
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder(toBuilder = true)
 public
 class OrderJpaEntity {
 
@@ -24,25 +27,9 @@ class OrderJpaEntity {
     @JoinColumn(name = "member_id")
     private MemberJpaEntity member;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItemJapEntity> orderItems = new ArrayList<>();
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "delivery_id")
-    private DeliveryJpaEntity deliveryJpaEntity;
-
     private LocalDateTime orderDate;  //주문시간
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;  //주문상태 [ORDER, CANCEL]
 
-    @Builder
-    public OrderJpaEntity(Long id, MemberJpaEntity member, List<OrderItemJapEntity> orderItems, DeliveryJpaEntity deliveryJpaEntity, LocalDateTime orderDate, OrderStatus status) {
-        this.id = id;
-        this.member = member;
-        this.orderItems = orderItems;
-        this.deliveryJpaEntity = deliveryJpaEntity;
-        this.orderDate = orderDate;
-        this.status = status;
-    }
 }
