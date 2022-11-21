@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @PersistenceAdapter
@@ -21,11 +23,18 @@ class OrderPersistenceAdapter implements
     private final OrderJpaRepository orderRepository;
 
     @Override
-    public Order loadOrder(OrderId orderId, LocalDateTime baselineDate) {
+    public Order findById(OrderId orderId) {
         OrderJpaEntity order = orderRepository.findById(orderId.getValue())
                         .orElseThrow(EntityNotFoundException::new);
 
         return new Order(order);
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll().stream()
+                .map(order -> new Order(order))
+                .collect(Collectors.toList());
     }
 
     @Override

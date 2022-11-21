@@ -25,9 +25,7 @@ public class CancelOrderService implements CancelOrderUseCase {
     @Override
     public boolean cancelOrder(CancelOrderCommand command) {
 
-        LocalDateTime since = LocalDateTime.now().minusDays(10);
-
-        Order order = loadOrderPort.loadOrder(command.getOrderId(), since);
+        Order order = loadOrderPort.findById(command.getOrderId());
 
         OrderId orderId = order.getId()
                 .orElseThrow(() -> new IllegalStateException("expected order ID not to be empty"));

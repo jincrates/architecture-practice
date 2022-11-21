@@ -18,9 +18,9 @@ public class OutputOrderItemMapper {
             .id(new OrderId(entity.getId()))
             .member(new Member(entity.getMember()))
             .orderDate(entity.getOrderDate())
-            .orderItems(entity.getOrderItems().stream()
-                .map(orderItem -> new OrderItem(orderItem))
-                .collect(Collectors.toList()))
+//            .orderItems(entity.getOrderItems().stream()
+//                .map(orderItem -> new OrderItem(orderItem))
+//                .collect(Collectors.toList()))
             .build();
     }
 

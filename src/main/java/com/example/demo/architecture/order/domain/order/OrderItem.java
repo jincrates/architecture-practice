@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-@Builder
 public class OrderItem {
 
     private OrderItemId id;
@@ -23,6 +22,15 @@ public class OrderItem {
     private int orderPrice;
 
     private int count;
+
+    @Builder
+    public OrderItem(OrderItemId id, Item item, Order order, int orderPrice, int count) {
+        this.id = id;
+        this.item = item;
+        this.order = order;
+        this.orderPrice = orderPrice;
+        this.count = count;
+    }
 
     public OrderItem(OrderItemJpaEntity entity) {
         this.id = new OrderItemId(entity.getId());

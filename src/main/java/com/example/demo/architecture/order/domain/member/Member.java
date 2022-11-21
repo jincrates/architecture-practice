@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Builder
 public class Member {
 
     private MemberId id;
@@ -29,12 +28,19 @@ public class Member {
 
     private List<Order> orders = new ArrayList<>();
 
+    @Builder
+    public Member(MemberId id, String name, String address, List<Order> orders) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.orders = orders;
+    }
+
     public Member(MemberJpaEntity entity) {
         this.id = new MemberId(entity.getId());
         this.name = entity.getName();
         this.address = entity.getAddress();
     }
-
 
     @Value
     public static class MemberId {

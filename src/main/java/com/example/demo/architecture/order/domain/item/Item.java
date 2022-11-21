@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-@Builder
 public class Item {
 
     private final ItemId id;
@@ -21,6 +20,14 @@ public class Item {
     private final int price;
 
     private int stockQuantity;
+
+    @Builder
+    public Item(ItemId id, String name, int price, int stockQuantity) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
 
     public Item(ItemJpaEntity entity) {
         this.id = new ItemId(entity.getId());

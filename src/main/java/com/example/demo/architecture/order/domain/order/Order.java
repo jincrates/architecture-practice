@@ -2,7 +2,6 @@ package com.example.demo.architecture.order.domain.order;
 
 import com.example.demo.architecture.order.adapter.out.persistence.order.OrderJpaEntity;
 import com.example.demo.architecture.order.domain.member.Member;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import java.util.Optional;
 
 @Slf4j
 @Getter
-@Builder
 public class Order {
 
     private OrderId id;
@@ -26,6 +24,14 @@ public class Order {
     LocalDateTime orderDate;
 
     private OrderStatus status;
+
+    @Builder
+    public Order(OrderId id, Member member, LocalDateTime orderDate, OrderStatus status) {
+        this.id = id;
+        this.member = member;
+        this.orderDate = orderDate;
+        this.status = status;
+    }
 
     public Order(OrderJpaEntity entity) {
         this.id = new OrderId(entity.getId());
@@ -49,11 +55,6 @@ public class Order {
         }
 
         return order;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
-        member.getOrders().add(this);
     }
 
     public void addOrderItem(OrderItem orderItem) {

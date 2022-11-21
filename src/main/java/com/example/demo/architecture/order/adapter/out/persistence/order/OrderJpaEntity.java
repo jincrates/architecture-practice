@@ -16,10 +16,7 @@ import java.util.List;
 @Table(name = "orders")
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder(toBuilder = true)
-public
-class OrderJpaEntity {
+public class OrderJpaEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
@@ -36,6 +33,15 @@ class OrderJpaEntity {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItemJpaEntity> orderItems = new ArrayList<>();
+
+    @Builder
+    public OrderJpaEntity(Long id, MemberJpaEntity member, LocalDateTime orderDate, OrderStatus status, List<OrderItemJpaEntity> orderItems) {
+        this.id = id;
+        this.member = member;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.orderItems = orderItems;
+    }
 
     public OrderJpaEntity(Order domain) {
         this.id = domain.getId().isEmpty() ? null : domain.getId().get().getValue();

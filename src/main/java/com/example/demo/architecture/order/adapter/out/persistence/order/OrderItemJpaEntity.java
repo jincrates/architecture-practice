@@ -50,7 +50,6 @@ public class OrderItemJpaEntity {
     public OrderItemJpaEntity(OrderItem domain) {
         this.id = domain.getId().isEmpty() ? null : domain.getId().get().getValue();
         this.item = new ItemJpaEntity(domain.getItem());
-        this.order = new OrderJpaEntity(domain.getOrder());
         this.orderPrice = domain.getOrderPrice();
         this.count = domain.getCount();
     }
