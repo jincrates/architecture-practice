@@ -62,9 +62,7 @@ public class InitService {
         OrderItem orderItem2 = OrderItem.createOrderItem(new Item(item2), 40000, 4);
 
         Order order = Order.createOrder(new Member(member), orderItem1, orderItem2);
-        OrderJpaEntity orderEntity = new OrderJpaEntity(order);
-        //em.persist(new OrderJpaEntity(order));
-        em.persist(orderEntity);
+        em.persist(new OrderJpaEntity(order));
     }
 
     private ItemJpaEntity createItem(String name, int price, int stockQuantity) {

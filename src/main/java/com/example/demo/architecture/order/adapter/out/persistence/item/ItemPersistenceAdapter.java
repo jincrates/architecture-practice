@@ -8,8 +8,10 @@ import com.example.demo.architecture.order.application.port.out.LoadItemPort;
 import com.example.demo.architecture.order.application.port.out.LoadOrderPort;
 import com.example.demo.architecture.order.application.port.out.UpdateOrderStatusPort;
 import com.example.demo.architecture.order.domain.item.Item;
+import com.example.demo.architecture.order.domain.item.Item.ItemId;
 import com.example.demo.architecture.order.domain.order.Order;
 import com.example.demo.architecture.order.domain.order.Order.OrderId;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityNotFoundException;
@@ -24,12 +26,17 @@ class ItemPersistenceAdapter implements
     private final ItemJpaRepository itemJpaRepository;
 
     @Override
-    public Item findById(Item.ItemId itemId) {
-        return null;
+    public Item findById(ItemId itemId) {
+        ItemJpaEntity item = itemJpaRepository.findById(itemId.getValue())
+            .orElseThrow(EntityNotFoundException::new);
+        return new Item(item);
+
     }
 
     @Override
     public List<Item> findAll() {
-        return null;
+        return itemJpaRepository.findAll().stream()
+            .map(i -> new Item(i))
+            .collect(Collectors.toList());
     }
 }

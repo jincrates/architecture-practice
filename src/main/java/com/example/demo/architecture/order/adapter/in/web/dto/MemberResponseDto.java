@@ -23,4 +23,10 @@ public class MemberResponseDto extends SelfValidating<MemberResponseDto> {
         this.name = name;
         this.address = address;
     }
+
+    public MemberResponseDto(Member domain) {
+        this.memberId = domain.getId().isEmpty() ? null : domain.getId().get();
+        this.name = domain.getName();
+        this.address = domain.getAddress();
+    }
 }

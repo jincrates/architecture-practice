@@ -8,6 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface ItemJpaRepository extends JpaRepository<ItemJpaEntity, Long> {
-
-    Optional<ItemJpaEntity> findById(Long orderId);
 }

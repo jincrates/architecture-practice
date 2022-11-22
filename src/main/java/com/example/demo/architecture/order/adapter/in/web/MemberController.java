@@ -9,6 +9,7 @@ import com.example.demo.architecture.order.application.port.in.LoadMemberUseCase
 import com.example.demo.architecture.order.domain.member.Member;
 import com.example.demo.architecture.order.domain.member.Member.MemberId;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,20 +35,25 @@ public class MemberController {
     @ResponseStatus(HttpStatus.CREATED)
     MemberResponseDto createMember(@RequestBody MemberCreateRequestDto request) {
         Member savedMember = createMemberUseCase.createMember(inputMemberMapper.toDomain(request));
-        return inputMemberMapper.toDto(savedMember);
+        //return inputMemberMapper.toDto(savedMember);
+        return new MemberResponseDto(savedMember);
     }
 
     @GetMapping("/{memberId}")
     @ResponseStatus(HttpStatus.OK)
-    MemberResponseDto loadMember(@PathVariable("memberId") MemberId memberId) {
-        Member member = loadMemberUseCase.findById(memberId);
-        return inputMemberMapper.toDto(member);
+    MemberResponseDto loadMember(@PathVariable("memberId") Long memberId) {
+        Member member = loadMemberUseCase.findById(new MemberId(memberId));
+        //return inputMemberMapper.toDto(member);
+        return new MemberResponseDto(member);
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     List<MemberResponseDto> loadAllMembers() {
         List<Member> members = loadMemberUseCase.findAllMembers();
-        return inputMemberMapper.toDto(members);
+        //return inputMemberMapper.toDto(members);
+        return members.stream()
+            .map(m -> new MemberResponseDto(m))
+            .collect(Collectors.toList());
     }
 }

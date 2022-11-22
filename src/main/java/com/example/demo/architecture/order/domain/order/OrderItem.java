@@ -37,7 +37,7 @@ public class OrderItem {
     public OrderItem(OrderItemJpaEntity entity) {
         this.id = new OrderItemId(entity.getId());
         this.item = new Item(entity.getItem());
-        this.order = new Order(entity.getOrder());
+        //this.order = new Order(entity.getOrder());  //이거 풀면 순환구조로 빠져버립니다. 주의하라고 지우지 않았습니다.
         this.orderPrice = entity.getOrderPrice();
         this.count = entity.getCount();
     }
