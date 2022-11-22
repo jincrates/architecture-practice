@@ -1,7 +1,10 @@
 package com.example.demo.architecture.order.adapter.out.persistence.order;
 
 import com.example.demo.architecture.order.adapter.out.persistence.item.ItemJpaEntity;
+import com.example.demo.architecture.order.domain.item.Item;
+import com.example.demo.architecture.order.domain.order.Order;
 import com.example.demo.architecture.order.domain.order.OrderItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -39,6 +42,7 @@ public class OrderItemJpaEntity {
     @JoinColumn(name = "item_id")
     private ItemJpaEntity item;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private OrderJpaEntity order;
@@ -54,4 +58,18 @@ public class OrderItemJpaEntity {
         this.count = domain.getCount();
     }
 
+    public static OrderItemJpaEntity createOrderItem(ItemJpaEntity item, int orderPrice, int count) {
+        OrderItemJpaEntity orderItem = OrderItemJpaEntity.builder()
+            .item(item)
+            .orderPrice(orderPrice)
+            .count(count)
+            .build();
+
+        item.removeStock(count);
+        return orderItem;
+    }
+
+    public void setOrder(OrderJpaEntity order) {
+        this.order = order;
+    }
 }

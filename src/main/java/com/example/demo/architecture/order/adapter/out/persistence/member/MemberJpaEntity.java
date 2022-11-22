@@ -2,6 +2,7 @@ package com.example.demo.architecture.order.adapter.out.persistence.member;
 
 import com.example.demo.architecture.order.adapter.out.persistence.order.OrderJpaEntity;
 import com.example.demo.architecture.order.domain.member.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,8 @@ public class MemberJpaEntity {
 
     private String address;
 
+    @Builder.Default
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<OrderJpaEntity> orders = new ArrayList<>();
 

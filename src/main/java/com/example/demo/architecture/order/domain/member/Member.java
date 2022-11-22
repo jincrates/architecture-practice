@@ -26,6 +26,7 @@ public class Member {
 
     private String address;
 
+    @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
     @Builder

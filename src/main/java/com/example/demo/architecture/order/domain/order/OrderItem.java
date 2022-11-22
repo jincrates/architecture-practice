@@ -3,6 +3,7 @@ package com.example.demo.architecture.order.domain.order;
 import com.example.demo.architecture.order.adapter.out.persistence.order.OrderItemJpaEntity;
 import com.example.demo.architecture.order.domain.item.Item;
 import com.example.demo.architecture.order.domain.order.Order.OrderId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class OrderItem {
 
     private Item item;
 
+    @JsonIgnore
     private Order order;
 
     private int orderPrice;

@@ -33,11 +33,19 @@ public class InitService {
         ItemJpaEntity item2 = createItem("상품2", 20000, 200);
         em.persist(item2);
 
+        /*
+        변경감지 미적용
         OrderItem orderItem1 = OrderItem.createOrderItem(new Item(item1), 10000, 1);
         OrderItem orderItem2 = OrderItem.createOrderItem(new Item(item2), 20000, 2);
 
         Order order = Order.createOrder(new Member(member), orderItem1, orderItem2);
         em.persist(new OrderJpaEntity(order));
+        */
+        OrderItemJpaEntity orderItem1 = OrderItemJpaEntity.createOrderItem(item1, 10000, 1);
+        OrderItemJpaEntity orderItem2 = OrderItemJpaEntity.createOrderItem(item2, 20000, 2);
+
+        OrderJpaEntity order = OrderJpaEntity.createOrder(member, orderItem1, orderItem2);
+        em.persist(order);
     }
 
     public void dbInit2() {
@@ -54,7 +62,9 @@ public class InitService {
         OrderItem orderItem2 = OrderItem.createOrderItem(new Item(item2), 40000, 4);
 
         Order order = Order.createOrder(new Member(member), orderItem1, orderItem2);
-        em.persist(new OrderJpaEntity(order));
+        OrderJpaEntity orderEntity = new OrderJpaEntity(order);
+        //em.persist(new OrderJpaEntity(order));
+        em.persist(orderEntity);
     }
 
     private ItemJpaEntity createItem(String name, int price, int stockQuantity) {

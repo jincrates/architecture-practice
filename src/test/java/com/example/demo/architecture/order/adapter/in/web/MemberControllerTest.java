@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import javax.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,8 @@ class MemberControllerTest {
 
         //when
         Member savedMember = createMemberUseCase.createMember(givenMember);
-        Member findMember = loadMemberUseCase.findById(savedMember.getId());
+        Member findMember = loadMemberUseCase.findById(savedMember.getId()
+            .orElseThrow(EntityNotFoundException::new));
 
         // then
         assertNotNull(findMember);

@@ -9,5 +9,4 @@ public interface LoadOrderUseCase {
     Order findById(OrderId orderId);
 
     List<Order> findAllOrders();
-
 }

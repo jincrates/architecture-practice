@@ -62,6 +62,10 @@ public class Order {
         orderItem.setOrder(this);
     }
 
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
     /**
      * 주문 취소
      */
